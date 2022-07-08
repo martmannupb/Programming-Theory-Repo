@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         UpdateScore(0);
         float enemySpawnRate = 5.0f;
         switch (DataManager.Instance.difficulty)
