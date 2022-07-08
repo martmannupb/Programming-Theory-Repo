@@ -50,7 +50,23 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateScore(0);
-        InvokeRepeating(nameof(SpawnRandomEnemy), 1.0f, 3.0f);
+        float enemySpawnRate = 5.0f;
+        switch (DataManager.Instance.difficulty)
+        {
+            case DataManager.Difficulty.EASY:
+                enemySpawnRate = 5.0f;
+                break;
+            case DataManager.Difficulty.MEDIUM:
+                enemySpawnRate = 3.5f;
+                break;
+            case DataManager.Difficulty.HARD:
+                enemySpawnRate = 2.5f;
+                break;
+            default:
+                Debug.LogError("Unknown difficulty: " + DataManager.Instance.difficulty);
+                break;
+        }
+        InvokeRepeating(nameof(SpawnRandomEnemy), 2.0f, enemySpawnRate);
         gameOverScreen.SetActive(false);
         pauseScreen.SetActive(false);
         IsGameActive = true;
@@ -79,9 +95,12 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        Time.timeScale = 0;
-        IsGameActive = false;
-        pauseScreen.SetActive(true);
+        if (IsGameActive)
+        {
+            Time.timeScale = 0;
+            IsGameActive = false;
+            pauseScreen.SetActive(true);
+        }
     }
 
     public void Resume()
@@ -105,6 +124,11 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void SpawnRandomEnemy()
