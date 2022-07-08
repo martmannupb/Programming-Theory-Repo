@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float rotationSpeed = 45.0f;
 
+    [SerializeField] private float fireRate = 0.25f; // Time between shots
+    [SerializeField] private float powerupFireRate = 0.15f;    // Same but for powerup
+    private float currentFireRate;
+    private float lastShotTime = 0.0f;
+
     [SerializeField] private HealthBar powerupHealthBar;
     private bool havePowerup = false;
     private float powerupLifeTime = 7.5f;
@@ -22,13 +27,19 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        havePowerup = true;
-        UpdatePowerup();
+        DeactivatePowerup();
+        lastShotTime = Time.realtimeSinceStartup - fireRate;
+        currentFireRate = fireRate;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.Instance.isGameActive)
+        {
+            return;
+        }
+
         // Shoot when the corresponding key is pressed
         // ABSTRACTION
         HandleShootInput();
@@ -46,6 +57,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMoveInput()
     {
+        if (!GameManager.Instance.isGameActive)
+        {
+            return;
+        }
+
         float playerInput = Input.GetAxis("Horizontal");
         // Have to use negative input due to wrong rotation direction
         angle -= playerInput * rotationSpeed * Time.deltaTime;
@@ -62,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleShootInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && Time.realtimeSinceStartup - lastShotTime >= currentFireRate)
         {
             Shoot();
         }
@@ -72,6 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject projectile = havePowerup ? superProjectilePrefab : projectilePrefab;
         Instantiate(projectile, projectileSpawnPos.position, projectileSpawnPos.rotation);
+        lastShotTime = Time.realtimeSinceStartup;
     }
 
     public void ActivatePowerup()
@@ -80,6 +97,14 @@ public class PlayerController : MonoBehaviour
         powerupLife = powerupLifeTime;
         powerupHealthBar.SetHealthPercent(1.0f);
         powerupHealthBar.transform.parent.gameObject.SetActive(true);
+        currentFireRate = powerupFireRate;
+    }
+
+    private void DeactivatePowerup()
+    {
+        havePowerup = false;
+        powerupHealthBar.transform.parent.gameObject.SetActive(false);
+        currentFireRate = fireRate;
     }
 
     private void UpdatePowerup()
@@ -89,8 +114,7 @@ public class PlayerController : MonoBehaviour
             powerupLife -= Time.deltaTime;
             if (powerupLife < 0)
             {
-                havePowerup = false;
-                powerupHealthBar.transform.parent.gameObject.SetActive(false);
+                DeactivatePowerup();
             }
             else
             {
