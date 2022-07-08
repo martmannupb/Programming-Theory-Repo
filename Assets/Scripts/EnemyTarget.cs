@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITENCE
 public class EnemyTarget : MovingTarget
 {
     [SerializeField]
@@ -20,9 +21,10 @@ public class EnemyTarget : MovingTarget
         TakeDamage(0);
     }
 
+    // POLYMORPHISM
     protected override void OnHit(Projectile projectile)
     {
-        TakeDamage(projectile.damage);
+        TakeDamage(projectile.Damage);
     }
 
     private void TakeDamage(int damage)

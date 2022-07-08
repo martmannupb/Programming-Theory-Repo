@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     // ENCAPSULATION
     [SerializeField]
     protected int _damage = 1;
-    public int damage
+    public int Damage
     {
         get { return _damage; }
         private set { _damage = value; }

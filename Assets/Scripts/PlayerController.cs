@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.isGameActive)
+        if (!GameManager.Instance.IsGameActive)
         {
             return;
         }
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMoveInput()
     {
-        if (!GameManager.Instance.isGameActive)
+        if (!GameManager.Instance.IsGameActive)
         {
             return;
         }

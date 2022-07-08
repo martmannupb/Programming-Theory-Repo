@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     }
 
     private bool _isGameActive = true;
-    public bool isGameActive
+    public bool IsGameActive
     {
         get { return _isGameActive; }
         private set { _isGameActive = value; }
@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour
         InvokeRepeating(nameof(SpawnRandomEnemy), 1.0f, 3.0f);
         gameOverScreen.SetActive(false);
         pauseScreen.SetActive(false);
-        isGameActive = true;
+        IsGameActive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isGameActive)
+        if (!IsGameActive)
         {
             return;
         }
@@ -80,23 +80,23 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
-        isGameActive = false;
+        IsGameActive = false;
         pauseScreen.SetActive(true);
     }
 
     public void Resume()
     {
-        isGameActive = true;
+        IsGameActive = true;
         Time.timeScale = 1;
         pauseScreen.SetActive(false);
     }
 
     public void GameOver()
     {
-        if (isGameActive)
+        if (IsGameActive)
         {
             Debug.Log("Game Over!");
-            isGameActive = false;
+            IsGameActive = false;
             CancelInvoke();
             gameOverScreen.SetActive(true);
         }
