@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnXRange = 7.5f;
     [SerializeField] private float spawnY = 11.0f;
 
-    [SerializeField] private float powerupSpawnRate = 0.1f; // How many powerups spawn per second (on average)
+    [SerializeField] private float powerupSpawnRate = 0.09f; // How many powerups spawn per second (on average)
 
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject pauseScreen;
@@ -52,20 +52,23 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         UpdateScore(0);
         float enemySpawnRate = 5.0f;
-        switch (DataManager.Instance.difficulty)
+        if (DataManager.Instance != null)
         {
-            case DataManager.Difficulty.EASY:
-                enemySpawnRate = 5.0f;
-                break;
-            case DataManager.Difficulty.MEDIUM:
-                enemySpawnRate = 3.5f;
-                break;
-            case DataManager.Difficulty.HARD:
-                enemySpawnRate = 2.5f;
-                break;
-            default:
-                Debug.LogError("Unknown difficulty: " + DataManager.Instance.difficulty);
-                break;
+            switch (DataManager.Instance.difficulty)
+            {
+                case DataManager.Difficulty.EASY:
+                    enemySpawnRate = 4.0f;
+                    break;
+                case DataManager.Difficulty.MEDIUM:
+                    enemySpawnRate = 2.5f;
+                    break;
+                case DataManager.Difficulty.HARD:
+                    enemySpawnRate = 1.75f;
+                    break;
+                default:
+                    Debug.LogError("Unknown difficulty: " + DataManager.Instance.difficulty);
+                    break;
+            }
         }
         InvokeRepeating(nameof(SpawnRandomEnemy), 2.0f, enemySpawnRate);
         gameOverScreen.SetActive(false);
