@@ -432,6 +432,8 @@ MonoBehaviour:
   maxHealth: 1
   points: 10
   healthBar: {fileID: 491466021}
+  explosionAudio: {fileID: 8300000, guid: eb8998f3b3d3a49db96a634bf39ed153, type: 3}
+  hitAudio: {fileID: 8300000, guid: 10bcc8db66ee64c21901ab11ce282dea, type: 3}
 --- !u!1001 &8543212586501682352
 PrefabInstance:
   m_ObjectHideFlags: 0

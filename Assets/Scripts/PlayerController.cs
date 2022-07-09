@@ -24,9 +24,15 @@ public class PlayerController : MonoBehaviour
     private float powerupLifeTime = 7.5f;
     private float powerupLife = 0.0f;
 
+    [SerializeField] private AudioClip soundShoot;
+    [SerializeField] private AudioClip soundShootPowerup;
+    [SerializeField] private AudioClip soundPowerup;
+    private AudioSource myAudio;
+
     // Start is called before the first frame update
     void Start()
     {
+        myAudio = GetComponent<AudioSource>();
         DeactivatePowerup();
         lastShotTime = Time.realtimeSinceStartup - fireRate;
         currentFireRate = fireRate;
@@ -88,6 +94,11 @@ public class PlayerController : MonoBehaviour
     {
         GameObject projectile = havePowerup ? superProjectilePrefab : projectilePrefab;
         Instantiate(projectile, projectileSpawnPos.position, projectileSpawnPos.rotation);
+
+        AudioClip audio = havePowerup ? soundShootPowerup : soundShoot;
+        myAudio.pitch = Random.Range(0.8f, 1.2f);
+        myAudio.PlayOneShot(audio);
+
         lastShotTime = Time.realtimeSinceStartup;
     }
 
@@ -98,6 +109,7 @@ public class PlayerController : MonoBehaviour
         powerupHealthBar.SetHealthPercent(1.0f);
         powerupHealthBar.transform.parent.gameObject.SetActive(true);
         currentFireRate = powerupFireRate;
+        myAudio.PlayOneShot(soundPowerup);
     }
 
     private void DeactivatePowerup()

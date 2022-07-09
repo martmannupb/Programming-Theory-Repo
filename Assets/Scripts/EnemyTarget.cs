@@ -15,6 +15,11 @@ public class EnemyTarget : MovingTarget
     [SerializeField]
     private HealthBar healthBar;
 
+    [SerializeField]
+    private AudioClip explosionAudio;
+    [SerializeField]
+    private AudioClip hitAudio;
+
     private void Start()
     {
         health = maxHealth;
@@ -30,14 +35,19 @@ public class EnemyTarget : MovingTarget
     private void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0)
+        if (damage > 0)
         {
-            GameManager.Instance.UpdateScore(points);
-            Destroy(gameObject);
-        }
-        else
-        {
-            healthBar.SetHealthPercent((float)health / maxHealth);
+            GameObject.Find("Global Audio").GetComponent<AudioSource>().PlayOneShot(hitAudio);
+            if (health <= 0)
+            {
+                GameManager.Instance.UpdateScore(points);
+                GameObject.Find("Global Audio").GetComponent<AudioSource>().PlayOneShot(explosionAudio);
+                Destroy(gameObject);
+            }
+            else
+            {
+                healthBar.SetHealthPercent((float)health / maxHealth);
+            }
         }
     }
 }

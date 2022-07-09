@@ -33,6 +33,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject pauseScreen;
 
+    [SerializeField] private AudioClip musicEasy;
+    [SerializeField] private AudioClip musicMedium;
+    [SerializeField] private AudioClip musicHard;
+    [SerializeField] private AudioClip musicGameOver;
+    private AudioSource myAudio;
+
     private int score = 0;
 
     // Start is called before the first frame update
@@ -50,21 +56,26 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        myAudio = GetComponentInChildren<AudioSource>();
         Time.timeScale = 1;
         UpdateScore(0);
         float enemySpawnRate = 5.0f;
+        myAudio.clip = musicEasy;
         if (DataManager.Instance != null)
         {
             switch (DataManager.Instance.difficulty)
             {
                 case DataManager.Difficulty.EASY:
                     enemySpawnRate = 4.0f;
+                    myAudio.clip = musicEasy;
                     break;
                 case DataManager.Difficulty.MEDIUM:
                     enemySpawnRate = 2.5f;
+                    myAudio.clip = musicMedium;
                     break;
                 case DataManager.Difficulty.HARD:
                     enemySpawnRate = 1.75f;
+                    myAudio.clip = musicHard;
                     break;
                 default:
                     Debug.LogError("Unknown difficulty: " + DataManager.Instance.difficulty);
@@ -75,6 +86,7 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(false);
         pauseScreen.SetActive(false);
         IsGameActive = true;
+        myAudio.Play();
     }
 
     // Update is called once per frame
@@ -123,6 +135,8 @@ public class GameManager : MonoBehaviour
             IsGameActive = false;
             CancelInvoke();
             gameOverScreen.SetActive(true);
+            myAudio.clip = musicGameOver;
+            myAudio.Play();
         }
     }
 
