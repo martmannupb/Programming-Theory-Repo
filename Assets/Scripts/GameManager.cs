@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
         private set;
     }
 
+    // ENCAPSULATION
     private bool _isGameActive = true;
     public bool IsGameActive
     {
