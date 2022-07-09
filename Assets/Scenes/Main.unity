@@ -2315,8 +2315,8 @@ MonoBehaviour:
   projectileSpawnPos: {fileID: 213875010}
   projectilePrefab: {fileID: 7428728283440910236, guid: 3058373f52d41b1468c81a54fea753bf, type: 3}
   superProjectilePrefab: {fileID: 7428728283440910236, guid: 6bcbc6dd5810b324b8efa85a892977cc, type: 3}
-  rotationSpeed: 60
-  fireRate: 0.425
+  rotationSpeed: 65
+  fireRate: 0.375
   powerupFireRate: 0.15
   powerupHealthBar: {fileID: 924749355}
   soundShoot: {fileID: 8300000, guid: de812cfb519929c4aad9d296f655c81d, type: 3}
