@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnXRange = 7.5f;
     [SerializeField] private float spawnY = 11.0f;
 
-    [SerializeField] private float powerupSpawnRate = 0.09f; // How many powerups spawn per second (on average)
+    [SerializeField] private float powerupSpawnRate = 0.05f; // How many powerups spawn per second (on average)
 
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject pauseScreen;
